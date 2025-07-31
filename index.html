@@ -1,0 +1,3179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheOutlawTrader - The Market's Most Wanted</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --red: #dc2626;
+            --red-dark: #991b1b;
+            --gold: #d4af37;
+            --gold-light: #fbbf24;
+            --gray-900: #0a0a0a;
+            --gray-800: #1a1a1a;
+            --gray-700: #2a2a2a;
+            --gray-600: #3a3a3a;
+            --gray-300: #d1d5db;
+        }
+
+        body {
+            font-family: 'Exo 2', system-ui, -apple-system, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(220, 38, 38, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(220, 38, 38, 0.05) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .logo-box {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--red) 0%, var(--black) 100%);
+            border: 2px solid var(--white);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+        .logo-box span {
+            font-size: 18px;
+            font-weight: 900;
+            z-index: 2;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-link {
+            color: var(--gray-300);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--red), var(--gold));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--white);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 26px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--red);
+            transform: rotate(90deg);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--black) 0%, var(--gray-900) 50%, var(--black) 100%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(220, 38, 38, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(220, 38, 38, 0.1) 0%, transparent 30%);
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(rgba(0,0,0,0.8) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.8) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            animation: grid-move 20s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--red) 0%, var(--black) 100%);
+            border: 3px solid var(--white);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(220, 38, 38, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
+
+        .hero-logo span {
+            font-size: 48px;
+            font-weight: 900;
+        }
+
+        .hero-title {
+            font-size: 4rem; /* Changed from 5rem to 4rem */
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, var(--white), var(--red), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .hero-subtitle {
+            color: var(--red);
+            display: block;
+            font-size: 1.8rem;
+            margin-top: 15px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+        }
+
+        .hero-description {
+            font-size: 1.4rem;
+            color: var(--gray-300);
+            margin-bottom: 50px;
+            line-height: 1.7;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--red), var(--red-dark));
+            z-index: -1;
+            transition: all 0.4s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--red), var(--red-dark));
+            color: var(--white);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(220, 38, 38, 0.5);
+        }
+
+        .btn-primary::before {
+            background: linear-gradient(45deg, var(--red-dark), var(--red));
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 3px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--red);
+            color: var(--red);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .btn-tertiary {
+            background: linear-gradient(45deg, var(--gold), #b8860b);
+            color: var(--black);
+            font-weight: 800;
+        }
+
+        .btn-tertiary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--gray-300);
+            font-size: 24px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-20px);}
+            60% {transform: translateX(-50%) translateY(-10px);}
+        }
+
+        /* Live Visitor Counter */
+        .live-counter {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--red);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        /* Trading Clock */
+        .trading-clock {
+            position: fixed;
+            top: 90px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 12px;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            min-width: 180px;
+            transition: all 0.3s ease;
+        }
+
+        .market-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseStatus 2s infinite;
+        }
+
+        @keyframes pulseStatus {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        #countdown {
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+            color: var(--gold-light);
+        }
+
+        /* Mobile Widgets Container */
+        .mobile-widgets {
+            display: none;
+            position: fixed;
+            top: 90px;
+            left: 20px;
+            z-index: 999;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .mobile-widgets .live-counter,
+        .mobile-widgets .trading-clock {
+            position: static;
+            margin: 0;
+            width: 180px;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-bg {
+            background: linear-gradient(180deg, var(--black) 0%, var(--gray-900) 100%);
+        }
+
+        .section-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(220, 38, 38, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(220, 38, 38, 0.03) 0%, transparent 20%);
+            pointer-events: none;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--gold));
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-highlight {
+            color: var(--red);
+            position: relative;
+        }
+
+        .section-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--red), transparent);
+        }
+
+        .section-description {
+            font-size: 1.3rem;
+            color: var(--gray-300);
+            max-width: 768px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-content p {
+            font-size: 1.2rem;
+            color: var(--gray-300);
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .timeline {
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--black) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-700);
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            background: var(--red);
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: var(--red);
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+
+        .timeline h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--red);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            background: rgba(220, 38, 38, 0.1);
+            transform: translateX(5px);
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background-color: var(--red);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 8px;
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+        }
+
+        .timeline-content h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--white);
+        }
+
+        .timeline-content p {
+            font-size: 1rem;
+            color: var(--gray-300);
+            margin: 0;
+        }
+
+        /* Philosophy Section */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .philosophy-card {
+            background: linear-gradient(135deg, var(--gray-900) 0%, var(--black) 100%);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-800);
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--red), var(--gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(220, 38, 38, 0.5);
+            box-shadow: 0 25px 50px rgba(220, 38, 38, 0.2);
+        }
+
+        .philosophy-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .philosophy-icon {
+            color: var(--red);
+            font-size: 48px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+        }
+
+        .philosophy-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .philosophy-card p {
+            color: var(--gray-300);
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        /* Results Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 70px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 35px 25px;
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--black) 100%);
+            border-radius: 16px;
+            border: 1px solid var(--gray-700);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(220, 38, 38, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--red);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--red);
+            margin-bottom: 10px;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .stat-label {
+            color: var(--gray-300);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .results-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .testimonials {
+            margin-bottom: 48px;
+        }
+
+        .testimonial {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--gray-600);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateX(10px);
+            border-color: var(--red);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .stars {
+            color: var(--gold-light);
+            display: flex;
+            gap: 3px;
+            font-size: 18px;
+        }
+
+        .testimonial-text {
+            color: var(--gray-300);
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* Testimonial Carousel */
+        .testimonial-carousel {
+            position: relative;
+            max-width: 600px;
+            margin: 40px auto;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            display: none;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--black) 100%);
+            border-radius: 16px;
+            border: 1px solid var(--gray-700);
+            text-align: center;
+        }
+
+        .carousel-slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .testimonial-content .stars {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .testimonial-content p {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .trader-id {
+            color: var(--gray-300);
+            font-weight: 600;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray-600);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--red);
+            transform: scale(1.2);
+        }
+
+        /* Market Sentiment Widget */
+        .sentiment-widget {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--gray-700);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .sentiment-widget h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .sentiment-bar {
+            display: flex;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: var(--gray-800);
+        }
+
+        .bullish {
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            color: var(--black);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .bearish {
+            background: linear-gradient(90deg, #f87171, #ef4444);
+            color: var(--white);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* Performance Dashboard */
+        .performance-dashboard {
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--black) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--gray-700);
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-header h3 {
+            font-size: 1.8rem;
+            color: var(--white);
+        }
+
+        .last-updated {
+            font-size: 0.9rem;
+            color: var(--gray-400);
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .perf-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gray-600);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .perf-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--red);
+        }
+
+        .perf-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 5px;
+            color: var(--red);
+        }
+
+        .positive {
+            color: #4ade80;
+        }
+
+        .perf-label {
+            font-size: 0.9rem;
+            color: var(--gray-300);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Trading Simulator */
+        .trading-simulator {
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--black) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--gray-700);
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .trading-simulator h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--white);
+        }
+
+        .simulator-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gray-600);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat .label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--gray-300);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat .value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            color: var(--white);
+        }
+
+        .positive {
+            color: #4ade80;
+        }
+
+        /* Mentorship Section */
+        .mentorship-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .features {
+            margin-bottom: 40px;
+        }
+
+        .feature {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(220, 38, 38, 0.1);
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 4px;
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .feature-icon i {
+            font-size: 14px;
+            color: var(--white);
+        }
+
+        .feature-content h4 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feature-content p {
+            color: var(--gray-300);
+            font-size: 1.1rem;
+        }
+
+        .limited-spots {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2) 0%, var(--black) 100%);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            text-align: center;
+        }
+
+        .spots-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--red);
+            margin-bottom: 15px;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .spots-text {
+            color: var(--gray-300);
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+        }
+
+        /* Payment Options */
+        .payment-options {
+            margin-top: 50px;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--black) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--gray-700);
+        }
+
+        .payment-options h3 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--white);
+        }
+
+        .payment-plans {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .plan {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gray-600);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plan:hover {
+            transform: translateY(-10px);
+            border-color: var(--red);
+        }
+
+        .featured {
+            border: 2px solid var(--red);
+            position: relative;
+            transform: scale(1.05);
+        }
+
+        .featured:hover {
+            transform: scale(1.1) translateY(-10px);
+        }
+
+        .featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--red);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .plan h4 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--red);
+            margin-bottom: 25px;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .plan ul {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .plan ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-700);
+            color: var(--gray-300);
+        }
+
+        .plan ul li:last-child {
+            border-bottom: none;
+        }
+
+        .plan ul li::before {
+            content: '✓';
+            color: #4ade80;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .plan .btn {
+            width: 100%;
+            margin-top: auto;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background: linear-gradient(90deg, rgba(220, 38, 38, 0.15) 0%, var(--black) 100%);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--red);
+            border-radius: 50%;
+            opacity: 0.05;
+        }
+
+        .newsletter::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: var(--red);
+            border-radius: 50%;
+            opacity: 0.05;
+        }
+
+        .newsletter-content {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+        }
+
+        .form-header h3 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .form-header p {
+            font-size: 1.2rem;
+            color: var(--gray-300);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 20px 25px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--gray-600);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--red);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .form-footer {
+            margin-top: 15px;
+        }
+
+        .form-footer small {
+            color: var(--gray-500);
+        }
+
+        /* Newsletter Popup */
+        .newsletter-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            border: 2px solid #dc2626;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 350px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none;
+        }
+
+        .popup-content h3 {
+            color: #dc2626;
+            margin-bottom: 10px;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close-popup:hover {
+            color: #dc2626;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-info h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(220, 38, 38, 0.1);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(220, 38, 38, 0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .contact-icon:hover {
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            transform: scale(1.1);
+        }
+
+        .contact-icon i {
+            color: var(--red);
+            font-size: 28px;
+        }
+
+        .contact-text h4 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-text p {
+            color: var(--gray-300);
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(220, 38, 38, 0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 24px;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        .social-link i {
+            color: var(--red);
+        }
+
+        /* WhatsApp Link */
+        .whatsapp-link {
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.2), rgba(37, 211, 102, 0.1));
+        }
+
+        .whatsapp-link:hover {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+
+        .whatsapp-link i {
+            color: #25D366;
+        }
+
+        .contact-form {
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--black) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-700);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--gray-600);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--red);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(180deg, var(--gray-900) 0%, var(--black) 100%);
+            border-top: 1px solid var(--gray-800);
+            padding: 60px 0 30px;
+            position: relative;
+        }
+
+        .footer-content {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--red) 0%, var(--black) 100%);
+            border: 2px solid var(--white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .footer-logo span {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .footer-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer-subtitle {
+            color: var(--gray-300);
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .footer-link {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--red), var(--gold));
+            transition: width 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--white);
+        }
+
+        .footer-link:hover::after {
+            width: 100%;
+        }
+
+        .footer-divider {
+            border-top: 1px solid var(--gray-800);
+            padding-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-copyright {
+            color: var(--gray-500);
+            text-align: center;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* FX Bots Section */
+        #fx-bots {
+            display: none;
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--black) 0%, var(--gray-900) 100%);
+        }
+
+        .bots-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .bots-header h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--red);
+        }
+
+        .bots-header p {
+            font-size: 1.3rem;
+            color: var(--gray-300);
+            max-width: 768px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .bots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .bot-card {
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--black) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--gray-700);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .bot-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--red);
+        }
+
+        .bot-icon {
+            font-size: 64px;
+            color: var(--red);
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+        }
+
+        .bot-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--white);
+        }
+
+        .bot-card p {
+            color: var(--gray-300);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .bot-features {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .bot-features li {
+            color: var(--gray-300);
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .bot-features li::before {
+            content: '✓';
+            color: #4ade80;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .bot-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .back-to-top {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-to-top .btn {
+            background: transparent;
+            border: 2px solid var(--red);
+            color: var(--red);
+        }
+
+        .back-to-top .btn:hover {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            
+            .section-title {
+                font-size: 3rem;
+            }
+            
+            .performance-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .simulator-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .about-grid,
+            .results-content,
+            .mentorship-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .philosophy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .trading-clock,
+            .live-counter {
+                display: none;
+            }
+            
+            .payment-plans {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured {
+                transform: scale(1);
+            }
+            
+            .featured:hover {
+                transform: translateY(-10px);
+            }
+            
+            .simulator-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .bots-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Mobile-specific styles (20% smaller than tablet) */
+            html {
+                font-size: 80%; /* Base font size reduction */
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                gap: 0;
+                padding: 20px 0;
+                border-bottom: 1px solid var(--gray-800);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-link {
+                padding: 15px 20px;
+                border-bottom: 1px solid var(--gray-800);
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .performance-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Show mobile widgets container */
+            .mobile-widgets {
+                display: flex;
+            }
+            
+            /* Adjust popup for mobile */
+            .newsletter-popup {
+                max-width: 280px;
+                right: 10px;
+                bottom: 10px;
+                padding: 15px;
+                font-size: 90%;
+            }
+            
+            .popup-content h3 {
+                font-size: 1.3rem;
+            }
+            
+            .simulator-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .bots-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Adjust contact form for mobile */
+            .contact-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .contact-icon i {
+                font-size: 20px;
+            }
+            
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+
+        /* Mobile-specific styles (40% smaller) */
+        @media (max-width: 480px) {
+            html {
+                font-size: 60%; /* Additional reduction for very small screens */
+            }
+            
+            .hero-title {
+                font-size: 2.2rem; /* 40% smaller than desktop */
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem; /* 40% smaller than desktop */
+            }
+            
+            .hero-description {
+                font-size: 0.9rem; /* 40% smaller than desktop */
+            }
+            
+            .hero-logo {
+                width: 72px; /* 40% smaller than desktop */
+                height: 72px;
+            }
+            
+            .hero-logo span {
+                font-size: 29px; /* 40% smaller than desktop */
+            }
+            
+            .btn {
+                padding: 11px 24px; /* 40% smaller than desktop */
+                font-size: 11px; /* 40% smaller than desktop */
+            }
+            
+            .section-title {
+                font-size: 1.5rem; /* 40% smaller than desktop */
+            }
+            
+            .section-description {
+                font-size: 0.8rem; /* 40% smaller than desktop */
+            }
+            
+            .stat-number {
+                font-size: 2.1rem; /* 40% smaller than desktop */
+            }
+            
+            .stat-label {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .price {
+                font-size: 1.5rem; /* 40% smaller than desktop */
+            }
+            
+            .plan h4 {
+                font-size: 0.9rem; /* 40% smaller than desktop */
+            }
+            
+            .plan ul li {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .testimonial-content p {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .testimonial-name {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .contact-info h3 {
+                font-size: 1.3rem; /* 40% smaller than desktop */
+            }
+            
+            .contact-text h4 {
+                font-size: 0.8rem; /* 40% smaller than desktop */
+            }
+            
+            .contact-text p {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .social-link {
+                width: 36px; /* 40% smaller than desktop */
+                height: 36px;
+                font-size: 14px; /* 40% smaller than desktop */
+            }
+            
+            .contact-icon {
+                width: 36px; /* 40% smaller than desktop */
+                height: 36px;
+                font-size: 17px; /* 40% smaller than desktop */
+            }
+            
+            .philosophy-card h3 {
+                font-size: 0.9rem; /* 40% smaller than desktop */
+            }
+            
+            .philosophy-card p {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .philosophy-icon {
+                font-size: 29px; /* 40% smaller than desktop */
+            }
+            
+            .feature-content h4 {
+                font-size: 0.8rem; /* 40% smaller than desktop */
+            }
+            
+            .feature-content p {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .feature-icon {
+                width: 19px; /* 40% smaller than desktop */
+                height: 19px;
+                font-size: 8px; /* 40% smaller than desktop */
+            }
+            
+            .spots-number {
+                font-size: 1.5rem; /* 40% smaller than desktop */
+            }
+            
+            .spots-text {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .perf-value {
+                font-size: 1.1rem; /* 40% smaller than desktop */
+            }
+            
+            .perf-label {
+                font-size: 0.5rem; /* 40% smaller than desktop */
+            }
+            
+            .dashboard-header h3 {
+                font-size: 1.1rem; /* 40% smaller than desktop */
+            }
+            
+            .trading-simulator h3 {
+                font-size: 1.1rem; /* 40% smaller than desktop */
+            }
+            
+            .stat .label {
+                font-size: 0.5rem; /* 40% smaller than desktop */
+            }
+            
+            .stat .value {
+                font-size: 0.9rem; /* 40% smaller than desktop */
+            }
+            
+            .bots-header h2 {
+                font-size: 2.1rem; /* 40% smaller than desktop */
+            }
+            
+            .bots-header p {
+                font-size: 0.8rem; /* 40% smaller than desktop */
+            }
+            
+            .bot-card h3 {
+                font-size: 1.1rem; /* 40% smaller than desktop */
+            }
+            
+            .bot-card p {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .bot-price {
+                font-size: 1.2rem; /* 40% smaller than desktop */
+            }
+            
+            .bot-features li {
+                font-size: 0.7rem; /* 40% smaller than desktop */
+            }
+            
+            .bot-icon {
+                font-size: 38px; /* 40% smaller than desktop */
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(220, 38, 38, 0.3);
+            border-top: 5px solid var(--red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Mobile Widgets Container -->
+    <div class="mobile-widgets">
+        <div class="live-counter">
+            <span id="visitor-count">1,337</span> traders viewing now
+        </div>
+        <div class="trading-clock">
+            <div class="market-status">
+                <span class="status-indicator"></span>
+                <span id="current-market">London Open</span>
+            </div>
+            <div id="countdown">Closes in: 02:45:33</div>
+        </div>
+    </div>
+
+    <!-- Live Visitor Counter -->
+    <div class="live-counter">
+        <span id="visitor-count">1,337</span> traders viewing now
+    </div>
+
+    <!-- Trading Clock -->
+    <div class="trading-clock">
+        <div class="market-status">
+            <span class="status-indicator"></span>
+            <span id="current-market">London Open</span>
+        </div>
+        <div id="countdown">Closes in: 02:45:33</div>
+    </div>
+
+    <!-- Newsletter Popup -->
+    <div class="newsletter-popup" id="newsletterPopup">
+        <div class="popup-content">
+            <span class="close-popup" onclick="closePopup()">&times;</span>
+            <h3>🚨 Exclusive Trading Guide</h3>
+            <p>Get my free "Outlaw's Edge" strategy guide + weekly market insights</p>
+            <form id="popupForm">
+                <input type="email" placeholder="Your best email" required style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 2px solid #333; background: rgba(0,0,0,0.5); color: white;">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Download Now</button>
+            </form>
+            <small>No spam. Unsubscribe anytime.</small>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-box">
+                    <span>T</span>
+                </div>
+                <span>TheOutlawTrader</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#philosophy" class="nav-link">Philosophy</a>
+                <a href="#results" class="nav-link">Results</a>
+                <a href="#mentorship" class="nav-link">Mentorship</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-logo">
+                <span>T</span>
+            </div>
+            <h1 class="hero-title">
+                TheOutlawTrader
+                <span class="hero-subtitle">The Market's Most Wanted</span>
+            </h1>
+            <p class="hero-description">
+                Master the markets with precision. Beat the system with strategy. 
+                Join the ranks of elite traders who refuse to settle for average.
+            </p>
+            <div class="hero-buttons">
+                <a href="#mentorship" class="btn btn-primary">Join The Elite</a>
+                <a href="#about" class="btn btn-secondary">My Story</a>
+                <a href="#fx-bots" class="btn btn-tertiary" onclick="showFXBots()">OUTLAW FX.BOTS</a>
+            </div>
+        </div>
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-bg">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2>From <span class="section-highlight">Outsider</span> to Market Elite</h2>
+                    <p>
+                        I started trading with nothing but a burning desire to beat a system that seemed rigged against the average trader. 
+                        Years of losses, sleepless nights, and countless blown accounts taught me one truth: 
+                        the market rewards those who think differently.
+                    </p>
+                    <p>
+                        Through relentless study, disciplined risk management, and a mindset that embraces volatility as opportunity, 
+                        I transformed from a frustrated beginner into a consistent profit generator. 
+                        Now, I share the strategies that made me "The Market's Most Wanted."
+                    </p>
+                    <p>
+                        My journey wasn't about getting rich quick—it was about mastering the art of trading with precision, 
+                        confidence, and an outlaw's mentality that refuses to follow the crowd.
+                    </p>
+                </div>
+                <div class="timeline">
+                    <h3>Trading Timeline</h3>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>2018 - The Beginning</h4>
+                            <p>Started with $500 and a dream</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>2020 - The Breakthrough</h4>
+                            <p>Developed core strategy framework</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>2022 - Consistency Achieved</h4>
+                            <p>72% win rate across 500+ trades</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>2024 - Elite Status</h4>
+                            <p>Managing 7-figure portfolio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trading Philosophy -->
+    <section id="philosophy">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Trading <span class="section-highlight">Philosophy</span></h2>
+                <p class="section-description">I don't follow the market—I lead it. Here's how I think differently.</p>
+            </div>
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <div class="philosophy-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Precision Over Hype</h3>
+                    <p>Every trade is calculated with mathematical precision. No guesswork, no emotions, just pure strategy.</p>
+                </div>
+                <div class="philosophy-card">
+                    <div class="philosophy-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Risk First, Reward Second</h3>
+                    <p>Protect capital like a fortress. Profits follow disciplined risk management, not reckless ambition.</p>
+                </div>
+                <div class="philosophy-card">
+                    <div class="philosophy-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Outlaw Mentality</h3>
+                    <p>Break the rules that limit average traders. Think independently, act decisively, profit consistently.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="section-bg">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Trading <span class="section-highlight">Results</span></h2>
+                <p class="section-description">Numbers don't lie. Here's proof of consistent profitability.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">72%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$2.3M</div>
+                    <div class="stat-label">Total Profits</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Trades Analyzed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Client Success</div>
+                </div>
+            </div>
+            
+            <!-- Performance Dashboard -->
+            <div class="performance-dashboard">
+                <div class="dashboard-header">
+                    <h3>Live Trading Performance</h3>
+                    <div class="last-updated">Updated: Just now</div>
+                </div>
+                <div class="performance-grid">
+                    <div class="perf-card">
+                        <div class="perf-value">+12.7%</div>
+                        <div class="perf-label">This Month</div>
+                    </div>
+                    <div class="perf-card">
+                        <div class="perf-value">+89.3%</div>
+                        <div class="perf-label">This Year</div>
+                    </div>
+                    <div class="perf-card">
+                        <div class="perf-value">156</div>
+                        <div class="perf-label">Trades Closed</div>
+                    </div>
+                    <div class="perf-card">
+                        <div class="perf-value">76%</div>
+                        <div class="perf-label">Win Rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Market Sentiment Widget -->
+            <div class="sentiment-widget">
+                <h4>Market Sentiment</h4>
+                <div class="sentiment-bar">
+                    <div class="bullish" style="width: 65%">Bullish 65%</div>
+                    <div class="bearish" style="width: 35%">Bearish 35%</div>
+                </div>
+            </div>
+            
+            <div class="results-content">
+                <div class="testimonials">
+                    <!-- Testimonial Carousel -->
+                    <div class="testimonial-carousel">
+                        <div class="carousel-slide active">
+                            <div class="testimonial-content">
+                                <div class="stars">★★★★★</div>
+                                <p>"Made my first $10K in 3 months following TheOutlaw's strategies!"</p>
+                                <div class="trader-id">- CryptoMike, Level 3 Trader</div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="testimonial-content">
+                                <div class="stars">★★★★★</div>
+                                <p>"The mindset shift alone was worth it. Now I trade with confidence and discipline."</p>
+                                <div class="trader-id">- Sarah M., Elite Student</div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="testimonial-content">
+                                <div class="stars">★★★★★</div>
+                                <p>"Transformed my trading completely. Went from losing consistently to profitable in 3 months."</p>
+                                <div class="trader-id">- John D., Premium Member</div>
+                            </div>
+                        </div>
+                        <div class="carousel-nav">
+                            <div class="carousel-dot active" data-slide="0"></div>
+                            <div class="carousel-dot" data-slide="1"></div>
+                            <div class="carousel-dot" data-slide="2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="performance">
+                    <h4>Recent Trade Performance</h4>
+                    <div class="trade-item">
+                        <span>EUR/USD</span>
+                        <span class="win">+2.4%</span>
+                    </div>
+                    <div class="trade-item">
+                        <span>GBP/JPY</span>
+                        <span class="loss">-1.1%</span>
+                    </div>
+                    <div class="trade-item">
+                        <span>AUD/USD</span>
+                        <span class="win">+3.2%</span>
+                    </div>
+                    <div class="trade-item">
+                        <span>USD/CAD</span>
+                        <span class="win">+1.8%</span>
+                    </div>
+                    <div class="trade-item">
+                        <span>NZD/USD</span>
+                        <span class="loss">-0.9%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mentorship Section -->
+    <section id="mentorship">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Join The <span class="section-highlight">Elite</span></h2>
+                <p class="section-description">Transform your trading with personalized mentorship from "The Market's Most Wanted"</p>
+            </div>
+            <div class="mentorship-grid">
+                <div>
+                    <h3>Premium Trading Mentorship</h3>
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Live Trade Analysis</h4>
+                                <p>Real-time breakdown of every trade decision</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Personal Strategy Sessions</h4>
+                                <p>Customized trading plans for your style</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Psychology Coaching</h4>
+                                <p>Master the mental game of trading</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Exclusive Community</h4>
+                                <p>Connect with other elite traders</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="limited-spots">
+                        <div class="spots-number">Limited Spots</div>
+                        <p class="spots-text">Only accepting 10 new students per quarter</p>
+                        <a href="#" class="btn btn-primary" onclick="sendEmail('APPLY NOW', 'I want to apply for your services')">Apply Now</a>
+                    </div>
+                </div>
+                <div class="pricing-card">
+                    <div class="price">
+                        <div class="price-amount">$2,997</div>
+                        <div class="price-note">One-time payment</div>
+                        <div class="price-subnote">or 3 payments of $1,099</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <span>Monthly 1-on-1 Sessions</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span>Live Trade Reviews</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span>Strategy Library Access</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span>Community Membership</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span>Priority Support</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="sendEmail('Start My Transformation', 'I want to Start My Transformation with you')">Start Your Transformation</a>
+                </div>
+            </div>
+            
+            <!-- Trading Simulator -->
+            <div class="trading-simulator">
+                <h3>Practice with $10K Virtual Account</h3>
+                <div class="simulator-stats">
+                    <div class="stat">
+                        <span class="label">Balance</span>
+                        <span class="value">$10,000</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">P&L</span>
+                        <span class="value positive">+$12,450</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Win Rate</span>
+                        <span class="value">72%</span>
+                    </div>
+                </div>
+                <a href="https://one.exnesstrack.org/a/zjq6n9qxe2?source=app" target="_blank" class="btn btn-primary">Start Simulating</a>
+            </div>
+            
+            <!-- Payment Options -->
+            <div class="payment-options">
+                <h3>Choose Your Investment Level</h3>
+                
+                <div class="payment-plans">
+                    <div class="plan">
+                        <h4>Starter Plan</h4>
+                        <div class="price">$497</div>
+                        <ul>
+                            <li>Weekly Strategy Calls</li>
+                            <li>Email Support</li>
+                            <li>Basic Resources</li>
+                            <li>Community Access</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary" onclick="sendEmail('GET STARTED', 'I want to get started with your Starter plan')">Get Started</a>
+                    </div>
+                    
+                    <div class="plan featured">
+                        <h4>Elite Plan</h4>
+                        <div class="price">$2,997</div>
+                        <ul>
+                            <li>Daily Live Trading</li>
+                            <li>1-on-1 Mentoring</li>
+                            <li>Exclusive Community</li>
+                            <li>Personal Strategy Sessions</li>
+                            <li>Priority Support</li>
+                            <li>Lifetime Updates</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary" onclick="sendEmail('JOIN ELITE', 'I want to get started with your Elite plan')">Join Elite</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <form class="newsletter-form enhanced">
+                    <div class="form-header">
+                        <h3>Get Free "Outlaw's Edge" Trading Guide</h3>
+                        <p>Join 10,000+ traders getting exclusive market insights</p>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="newsletter-input" placeholder="Enter your best email" required>
+                        <button type="button" class="btn btn-primary" onclick="sendEmail('GET FREE OUTLAW GUIDE', 'Can I please get the free Outlaw Guide')">Download Guide Now</button>
+                    </div>
+                    <div class="form-footer">
+                        <small>We respect your privacy. Unsubscribe anytime.</small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Connect With The <span class="section-highlight">Outlaw</span></h2>
+                <p class="section-description">Ready to join the ranks of elite traders? Let's talk.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Email</h4>
+                            <p>theoutlawtradertmmw@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Telegram</h4>
+                            <p>@TheOutlawTradertmmw</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>YouTube</h4>
+                            <p>@theoutlawtradertmw</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Follow My Journey</h4>
+                        <div class="social-links">
+                            <a href="https://youtube.com/@theoutlawtradertmw?si=Lw2Epug9eY9iWUVY" class="social-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="https://t.me/TheOutlawTradertmmw" class="social-link" target="_blank">
+                                <i class="fab fa-telegram"></i>
+                            </a>
+                            <a href="https://www.instagram.com/theoutlawtradertmmw?igsh=enUyb2xiZWlzNm0x" class="social-link" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://x.com/TheOutlawTrader?s=09" class="social-link" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://wa.me/qr/25K3IQWBKBBJA1" class="social-link whatsapp-link" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-input" placeholder="Your name" id="contactName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="your@email.com" id="contactEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Subject</label>
+                            <select class="form-select" id="contactSubject">
+                                <option>Mentorship Inquiry</option>
+                                <option>Trading Question</option>
+                                <option>Partnership Opportunity</option>
+                                <option>General Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-textarea" placeholder="Tell me about your trading journey..." id="contactMessage" required></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" style="width: 100%;" onclick="sendContactForm()">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FX Bots Section -->
+    <section id="fx-bots">
+        <div class="container">
+            <div class="bots-header">
+                <h2>OUTLAW FX.BOTS</h2>
+                <p>Advanced trading algorithms designed by TheOutlawTrader for precision and profitability</p>
+            </div>
+            
+            <div class="bots-grid">
+                <div class="bot-card">
+                    <div class="bot-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Outlaw Alpha</h3>
+                    <p>Our flagship bot specializing in major currency pairs with 82% win rate</p>
+                    <ul class="bot-features">
+                        <li>AI-powered decision making</li>
+                        <li>24/7 automated trading</li>
+                        <li>Risk management protocols</li>
+                        <li>Real-time market analysis</li>
+                    </ul>
+                    <div class="bot-price">$2,497</div>
+                    <a href="#" class="btn btn-primary" onclick="sendEmail('PURCHASE A BOT', 'I want to purchase: Outlaw Alpha')">Purchase Now</a>
+                </div>
+                
+                <div class="bot-card">
+                    <div class="bot-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Outlaw Beta</h3>
+                    <p>High-frequency trading bot for volatile market conditions</p>
+                    <ul class="bot-features">
+                        <li>Microsecond execution</li>
+                        <li>Scalping strategy focus</li>
+                        <li>Multi-asset support</li>
+                        <li>Customizable parameters</li>
+                    </ul>
+                    <div class="bot-price">$1,997</div>
+                    <a href="#" class="btn btn-primary" onclick="sendEmail('PURCHASE A BOT', 'I want to purchase: Outlaw Beta')">Purchase Now</a>
+                </div>
+                
+                <div class="bot-card">
+                    <div class="bot-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Outlaw Pro</h3>
+                    <p>Premium package with all bots and lifetime updates</p>
+                    <ul class="bot-features">
+                        <li>All 5 trading bots included</li>
+                        <li>Priority support</li>
+                        <li>Monthly strategy updates</li>
+                        <li>Exclusive community access</li>
+                    </ul>
+                    <div class="bot-price">$6,997</div>
+                    <a href="#" class="btn btn-primary" onclick="sendEmail('PURCHASE A BOT', 'I want to purchase: Outlaw Pro')">Purchase Now</a>
+                </div>
+            </div>
+            
+            <div class="back-to-top">
+                <button class="btn" onclick="hideFXBots()">← Back to Main Site</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>T</span>
+                </div>
+                <h3 class="footer-title">TheOutlawTrader</h3>
+                <p class="footer-subtitle">The Market's Most Wanted</p>
+                <div class="footer-links">
+                    <a href="#home" class="footer-link">Home</a>
+                    <a href="#about" class="footer-link">About</a>
+                    <a href="#philosophy" class="footer-link">Philosophy</a>
+                    <a href="#results" class="footer-link">Results</a>
+                    <a href="#mentorship" class="footer-link">Mentorship</a>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <p class="footer-copyright">
+                © 2024 TheOutlawTrader. All rights reserved. | Trading involves risk. Past performance is not indicative of future results.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loading').style.opacity = '0';
+                setTimeout(function() {
+                    document.querySelector('.loading').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // Function to send email
+        function sendEmail(subject, body) {
+            window.location.href = `mailto:theoutlawtradertmmw@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            return false;
+        }
+
+        // Function to handle contact form submission
+        function sendContactForm() {
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            const fullBody = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+            
+            sendEmail(subject, fullBody);
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target && target.id !== 'fx-bots') {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close mobile menu if open
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+
+        // Update active navigation link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section:not(#fx-bots)');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                alert(`✅ Thank you! Check your email for the download link.\nWe'll send trading insights to: ${email}`);
+                this.reset();
+            });
+        }
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // Create particles for hero section
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                const left = Math.random() * 100;
+                const delay = Math.random() * 6;
+                const duration = 6 + Math.random() * 10;
+                
+                particle.style.left = `${left}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        createParticles();
+
+        // Add scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.philosophy-card, .stat-card, .feature, .testimonial, .contact-item');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Set initial styles for animated elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.philosophy-card, .stat-card, .feature, .testimonial, .contact-item');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'all 0.6s ease';
+            });
+            
+            // Trigger initial animation check
+            animateOnScroll();
+        });
+
+        // Listen for scroll events
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Add hover effects to buttons
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Testimonial Carousel
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        // Auto-rotate carousel
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // Dot navigation
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                showSlide(parseInt(dot.getAttribute('data-slide')));
+            });
+        });
+
+        // Visitor counter animation
+        const visitorCount = document.getElementById('visitor-count');
+        let count = 1337;
+        
+        setInterval(() => {
+            count += Math.floor(Math.random() * 3);
+            visitorCount.textContent = count.toLocaleString();
+        }, 3000);
+
+        // REAL-TIME TRADING CLOCK - Shows actual market hours
+        function updateTradingClock() {
+            const now = new Date();
+            const utcHours = now.getUTCHours();
+            const utcMinutes = now.getUTCMinutes();
+            const utcSeconds = now.getUTCSeconds();
+            
+            let marketStatus = "Market Closed";
+            let timeUntil = "Next Session:";
+            let nextOpenHours = 0;
+            let nextOpenMinutes = 0;
+            let nextOpenSeconds = 0;
+            
+            // London Session: 8:00 - 17:00 UTC
+            if (utcHours >= 8 && utcHours < 17) {
+                marketStatus = "London Open";
+                timeUntil = "Closes in:";
+                nextOpenHours = 16 - utcHours;
+                nextOpenMinutes = 59 - utcMinutes;
+                nextOpenSeconds = 59 - utcSeconds;
+                if (nextOpenSeconds < 0) {
+                    nextOpenSeconds += 60;
+                    nextOpenMinutes--;
+                }
+                if (nextOpenMinutes < 0) {
+                    nextOpenMinutes += 60;
+                    nextOpenHours--;
+                }
+            }
+            // New York Session: 13:00 - 22:00 UTC
+            else if (utcHours >= 13 && utcHours < 22) {
+                marketStatus = "New York Open";
+                timeUntil = "Closes in:";
+                nextOpenHours = 21 - utcHours;
+                nextOpenMinutes = 59 - utcMinutes;
+                nextOpenSeconds = 59 - utcSeconds;
+                if (nextOpenSeconds < 0) {
+                    nextOpenSeconds += 60;
+                    nextOpenMinutes--;
+                }
+                if (nextOpenMinutes < 0) {
+                    nextOpenMinutes += 60;
+                    nextOpenHours--;
+                }
+            }
+            // Asian Session: 00:00 - 09:00 UTC (Tokyo)
+            else if ((utcHours >= 0 && utcHours < 9) || (utcHours === 23)) {
+                marketStatus = "Tokyo Open";
+                timeUntil = "Closes in:";
+                if (utcHours === 23) {
+                    nextOpenHours = 8;
+                    nextOpenMinutes = 59 - utcMinutes;
+                    nextOpenSeconds = 59 - utcSeconds;
+                } else {
+                    nextOpenHours = 8 - utcHours - 1;
+                    nextOpenMinutes = 59 - utcMinutes;
+                    nextOpenSeconds = 59 - utcSeconds;
+                }
+                if (nextOpenSeconds < 0) {
+                    nextOpenSeconds += 60;
+                    nextOpenMinutes--;
+                }
+                if (nextOpenMinutes < 0) {
+                    nextOpenMinutes += 60;
+                    nextOpenHours--;
+                }
+            }
+            // Market Closed - Show next session
+            else {
+                marketStatus = "Market Closed";
+                timeUntil = "London Opens in:";
+                if (utcHours >= 17 && utcHours < 23) {
+                    // Between London close and NY open
+                    nextOpenHours = 19 - utcHours;
+                    nextOpenMinutes = 59 - utcMinutes;
+                    nextOpenSeconds = 59 - utcSeconds;
+                } else {
+                    // Between NY close and London open (next day)
+                    nextOpenHours = (24 - utcHours) + 8;
+                    nextOpenMinutes = 59 - utcMinutes;
+                    nextOpenSeconds = 59 - utcSeconds;
+                }
+                if (nextOpenSeconds < 0) {
+                    nextOpenSeconds += 60;
+                    nextOpenMinutes--;
+                }
+                if (nextOpenMinutes < 0) {
+                    nextOpenMinutes += 60;
+                    nextOpenHours--;
+                }
+            }
+            
+            document.getElementById('current-market').textContent = marketStatus;
+            
+            // Format countdown
+            const countdown = document.getElementById('countdown');
+            const displayHours = Math.max(0, nextOpenHours);
+            const displayMinutes = Math.max(0, nextOpenMinutes);
+            const displaySeconds = Math.max(0, nextOpenSeconds);
+            
+            countdown.textContent = `${timeUntil} ${displayHours.toString().padStart(2, '0')}:${displayMinutes.toString().padStart(2, '0')}:${displaySeconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update clock every second
+        setInterval(updateTradingClock, 1000);
+        updateTradingClock(); // Initial call
+
+        // Simulate market sentiment changes
+        setInterval(() => {
+            const bullish = document.querySelector('.bullish');
+            const bearish = document.querySelector('.bearish');
+            
+            const bullishPercent = Math.floor(Math.random() * 30) + 55; // 55-85%
+            const bearishPercent = 100 - bullishPercent;
+            
+            bullish.style.width = `${bullishPercent}%`;
+            bearish.style.width = `${bearishPercent}%`;
+            
+            bullish.textContent = `Bullish ${bullishPercent}%`;
+            bearish.textContent = `Bearish ${bearishPercent}%`;
+        }, 10000);
+
+        // Newsletter Popup
+        setTimeout(function() {
+            document.getElementById('newsletterPopup').style.display = 'block';
+        }, 10000);
+
+        function closePopup() {
+            document.getElementById('newsletterPopup').style.display = 'none';
+        }
+
+        // Popup form submission
+        document.getElementById('popupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            alert(`✅ Thank you! Check your email for the download link.\nWe'll send trading insights to: ${email}`);
+            closePopup();
+        });
+
+        // FX Bots Section Functions
+        function showFXBots() {
+            document.querySelector('#home').style.display = 'none';
+            document.querySelector('#about').style.display = 'none';
+            document.querySelector('#philosophy').style.display = 'none';
+            document.querySelector('#results').style.display = 'none';
+            document.querySelector('#mentorship').style.display = 'none';
+            document.querySelector('.newsletter').style.display = 'none';
+            document.querySelector('#contact').style.display = 'none';
+            document.querySelector('footer').style.display = 'none';
+            document.querySelector('#fx-bots').style.display = 'block';
+            
+            // Scroll to top of FX bots section
+            document.querySelector('#fx-bots').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function hideFXBots() {
+            document.querySelector('#fx-bots').style.display = 'none';
+            document.querySelector('#home').style.display = 'block';
+            document.querySelector('#about').style.display = 'block';
+            document.querySelector('#philosophy').style.display = 'block';
+            document.querySelector('#results').style.display = 'block';
+            document.querySelector('#mentorship').style.display = 'block';
+            document.querySelector('.newsletter').style.display = 'block';
+            document.querySelector('#contact').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+            
+            // Scroll to top
+            document.querySelector('#home').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Mobile detection and widget positioning
+        function checkMobileLayout() {
+            if (window.innerWidth <= 768) {
+                // Hide desktop widgets
+                document.querySelector('.live-counter').style.display = 'none';
+                document.querySelector('.trading-clock').style.display = 'none';
+                // Show mobile widgets
+                document.querySelector('.mobile-widgets').style.display = 'flex';
+            } else {
+                // Show desktop widgets
+                document.querySelector('.live-counter').style.display = 'block';
+                document.querySelector('.trading-clock').style.display = 'block';
+                // Hide mobile widgets
+                document.querySelector('.mobile-widgets').style.display = 'none';
+            }
+        }
+
+        // Initial check
+        checkMobileLayout();
+        
+        // Listen for resize events
+        window.addEventListener('resize', checkMobileLayout);
+    </script>
+</body>
+</html>
